@@ -3,25 +3,42 @@ package database
 import (
 	"database/sql"
 	"fmt"
-	"log"
 
 	_ "github.com/lib/pq"
 )
 
-func NewDB() {
+func NewDB() (*sql.DB, error) {
 
-	connStr := fmt.Sprintf("host=%s port=%s user=%s password=%s dbname=%s sslmode=disable",
-		"localhost", "5432", "postgres", "khushi2001#", "inventory")
+	// Database configuration
+	host := "localhost"
+	port := 5432
+	user := "postgres"
+	password := "khushi2001#"
+	dbname := "users"
 
-	db, err := sql.Open("postgres", connStr)
+	// PostgreSQL connection string
+	dsn := fmt.Sprintf(
+		"host=%s port=%d user=%s password=%s dbname=%s sslmode=disable",
+		host,
+		port,
+		user,
+		password,
+		dbname,
+	)
+
+	// Create DB connection
+	db, err := sql.Open("postgres", dsn)
 	if err != nil {
-		log.Fatalf("failed to open database connection: %v", err)
+		return nil, err
 	}
 
+	// Verify DB connection
 	err = db.Ping()
 	if err != nil {
-		log.Fatalf("failed to ping DB: %v", err)
+		return nil, err
 	}
 
-	log.Println("Successfully connected to the database")
+	fmt.Println("Successfully connected to PostgreSQL")
+
+	return db, nil
 }

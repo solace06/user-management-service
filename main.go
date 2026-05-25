@@ -1,8 +1,20 @@
 package main
 
-import "github.com/solace06/inventory-management-system/database"
+import (
+	"log"
+
+	"github.com/solace06/user-management-service/database"
+)
 
 func main() {
 
-	database.NewDB()
+	//database connection
+	_, err := database.NewDB()
+	if err != nil {
+		log.Fatalf("error connecting to database: %v", err)
+	}
+
+	//router setup
+
+	//start server
 }
