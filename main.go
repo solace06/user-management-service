@@ -3,6 +3,7 @@ package main
 import (
 	"log"
 
+	"github.com/solace06/user-management-service/api"
 	"github.com/solace06/user-management-service/database"
 )
 
@@ -15,6 +16,8 @@ func main() {
 	}
 
 	//router setup
+	r := api.NewRouter()
 
 	//start server
+	r.Run(":8080")
 }
